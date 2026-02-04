@@ -1,0 +1,24 @@
+CREATE DATABASE Timofei;
+Use Timofei;
+
+--tabeli loomine
+CREATE TABLE tootaja(
+tootajaID int PRIMARY KEY identity(1,1),
+eesnimi varchar(30),
+perenimi varchar (30),
+synniaeg date,
+koormus decimal(5,2),
+elukoht TEXT,
+abielus bit 
+)
+--tabeli kustutamine 
+drop table tootaja;
+--tabeli kuvamine 
+select * from tootaja;
+
+--tabeli andmete liisamine
+
+INSERT INTO tootaja(eesnimi, perenimi, synniaeg)
+VALUES ('Mark', 'Päev', '2025-10-13');
+('Sten', 'Valgus', '2025-12-5');
+('Dima', 'Kapp', '2020-10-13');
