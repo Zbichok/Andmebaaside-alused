@@ -41,6 +41,12 @@ namespace Naidis_IKTpv25
             {
                 Console.WriteLine(e);
             }
+
+            Random rnd = new Random();
+            int juhuslik_arv = rnd.Next(-5, 25);
+            Console.WriteLine(Naidis_funktsioonid.Kuu_nimetus(juhuslik_arv));
+            juhuslik_arv = rnd.Next(-5, 25);
+            text
         }
     }
 }
