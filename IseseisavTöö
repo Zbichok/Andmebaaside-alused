@@ -1,0 +1,160 @@
+CREATE DATABASE veebipoodStoljarov;
+USE veebipoodStoljarov;
+
+-- Production
+-- table Categories
+CREATE TABLE categories(
+	category_id int PRIMARY KEY identity(1,1),
+	category_name varchar(30) UNIQUE
+);
+
+INSERT INTO categories(category_name)
+VALUES ('T-särgid'), ('Tossud'), ('Kingad'), ('Mantel'), ('Pusad');
+SELECT * FROM categories;
+
+--table brands
+CREATE TABLE brands(
+	brand_id int PRIMARY KEY identity(1,1),
+	brand_name varchar(30) UNIQUE
+);
+
+INSERT INTO brands(brand_name)
+VALUES ('Adidas'), ('Nike'), ('Calvin Klein'), ('Gucci'), ('Hugo boss');
+SELECT * FROM brands;
+
+--table products
+CREATE TABLE products(
+	product_id int PRIMARY KEY identity(1,1),
+	product_name varchar(50),
+	brand_id int,
+	FOREIGN KEY (brand_id) references brands(brand_id),
+	category_id int,
+	FOREIGN KEY (category_id) references categories(category_id),
+	model_year int CHECK(model_year<2027),
+	list_price decimal(7,2)
+);
+INSERT INTO products(product_name, brand_id, category_id, model_year, list_price)
+VALUES ('Adidas tossud', 1, 2, 2019, 60),
+('Nike t-särk', 2, 1, 2025, 45.59),
+('Calvin Klein pusa', 3, 5, 2018, 100.99),
+('Gucci Mantel', 4, 4, 2020, 159.99),
+('Hugo boss Kingad', 5, 3, 2026, 25.99);
+SELECT * FROM products;
+
+
+
+
+update categories set category_name 'kingad'
+where category_id=2;
+
+--procedure mis lisab INSERT andmeid tabelisse brands
+create procedure lisaBrand
+@brand_nimi varchar(30)
+as
+begin
+insert into brands(brand_name) values (@brand_nimi);
+select * from brands;
+end;
+
+--procedure check
+exec lisaBrand 'Audi';
+
+--procedure mis kustutab delete tabelist id järgi
+create procedure kustutaBrand
+@id int
+as
+begin 
+select * from brands;
+delete from brands where brand_id=@id;
+select * from brands;
+end;
+
+--kutse
+exec kustutaBrand 5;
+exec kustutaBrand @id=5;
+
+--procedure mis otsib brandnimed 1 tahte järge
+create procedure otsing1tahte
+@taht char(1)
+as 
+begin 
+select * from brands where brand_name like @taht+ '%';
+end;
+
+--kutse
+exec otsing1tahte 'a';
+
+--procedure mis uuendab update brandnimi id järgi
+
+create procedure uuendaBrand
+@id int,
+@uus_brandNimi varchar(30)
+as
+begin
+select * from brands;
+update brands set brand_name=@uus_brandNimi
+where brand_id=@id;
+select * from brands;
+end;
+
+--kutse
+exec uuendaBrand 1, 'uusAudi';
+
+
+
+--IseseisavTöö
+Iseseisvalt: tabel categories - loo protseduurid milega saab lisada uuendada kustutada
+
+--procedure mis lisab instert andmeid tabelisse category
+create procedure lisaCategories
+@category_name varchar(30)
+as
+begin
+insert into categories(category_name) values (@category_name);
+select * from categories;
+end;
+
+--procedure check
+exec lisaCategories 'Auto';
+
+--procedure mis kustutab delete tabelist id järgi
+create procedure kustutaCategories
+@id int
+as
+begin 
+select * from categories;
+delete from categories where category_id=@id;
+select * from categories;
+end;
+
+--kutse
+exec kustutaCategories 7;
+
+--procedure mis otsib categorynimed 1 tahte järge
+create procedure otsingtaht
+@taht char(1)
+as 
+begin 
+select * from categories where category_name like @taht+ '%';
+end;
+
+--kutse
+exec otsingtaht 'A';
+
+--procedure mis uuendab update categorynimi id järgi
+
+create procedure uuendaCategory
+@id int,
+@uus_category text
+as
+begin
+select * from categories;
+update categories set category_name=@uus_category
+where category_id=@id;
+select * from categories;
+end;
+
+--kutse
+exec uuendaCategory 8, 'uusAudi';
+
+drop procedure uuendaCategory
