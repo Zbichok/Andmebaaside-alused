@@ -1,0 +1,96 @@
+create database timohamobile;
+use timohamobile;
+
+create table telephone (
+	telephoneID INT primary key,
+	tootja VARCHAR(50) not null,
+	telephoneMODEL VARCHAR(50),
+	hind money,
+	v_aasta int,
+	OS VARCHAR(10)
+);
+
+select * from telephone
+
+alter table telephone alter column OS varchar(30);
+
+insert into telephone (telephoneID, tootja, telephoneMODEL, hind, v_aasta, OS) values (1, 'Sendo', 'Sendo S200', 6.89, 2001, 'Feature phone');
+insert into telephone (telephoneID, tootja, telephoneMODEL, hind, v_aasta, OS) values (2, 'Sony', 'Sony Xperia Z3+ dual', 99.99, 2015, 'Android 5.0, up to 6.0');
+insert into telephone (telephoneID, tootja, telephoneMODEL, hind, v_aasta, OS) values (3, 'Meizu', 'Meizu M2 Note', 89.99, 2015, 'Android 5.0, Flyme 4.5');
+insert into telephone (telephoneID, tootja, telephoneMODEL, hind, v_aasta, OS) values (4, 'Lenovo', 'Lenovo Z6 Pro 5G', 19.99, 2019, 'Android 9.0, ZUI 11');
+insert into telephone (telephoneID, tootja, telephoneMODEL, hind, v_aasta, OS) values (5, 'Nokia', 'Nokia 5510', 34.99, 2001, 'Feature phone');
+insert into telephone (telephoneID, tootja, telephoneMODEL, hind, v_aasta, OS) values (6, 'Micromax', 'Micromax A310 Canvas Nitro', 1.29, 2014, 'Android 4.4.2');
+insert into telephone (telephoneID, tootja, telephoneMODEL, hind, v_aasta, OS) values (7, 'Honor', 'Honor Bee', 7.49, 2015, 'Android 4.4.2, EMUI Lite 3');
+insert into telephone (telephoneID, tootja, telephoneMODEL, hind, v_aasta, OS) values (8, 'Lenovo', 'Lenovo S60', 5.99, 2015, 'Android 4.4.2, up to 5');
+insert into telephone (telephoneID, tootja, telephoneMODEL, hind, v_aasta, OS) values (9, 'Samsung', 'Samsung Galaxy Tab 3 10.1 P5220', 15.99, 2013, 'Android 4.2.2, TouchWiz UI');
+insert into telephone (telephoneID, tootja, telephoneMODEL, hind, v_aasta, OS) values (10, 'Lenovo', 'Lenovo A850', 39.99, 2013, 'Android 4.2.2');
+insert into telephone (telephoneID, tootja, telephoneMODEL, hind, v_aasta, OS) values (11, 'Dell', 'Dell Mini 3iX', 3.49, 2009, 'Android 1.5');
+insert into telephone (telephoneID, tootja, telephoneMODEL, hind, v_aasta, OS) values (12, 'Pantech', 'Pantech Crux', 34.99, 2010, 'Feature phone');
+insert into telephone (telephoneID, tootja, telephoneMODEL, hind, v_aasta, OS) values (13, 'Allview', 'Allview V2 Viper i', 24.99, 2015, 'Android 5.1');
+insert into telephone (telephoneID, tootja, telephoneMODEL, hind, v_aasta, OS) values (14, 'Samsung', 'Samsung Galaxy On7 Pro', 59.99, 2016, 'Android 6.0.1');
+insert into telephone (telephoneID, tootja, telephoneMODEL, hind, v_aasta, OS) values (15, 'Nokia', 'Nokia 206', 18.99, 2012, 'Feature phone');
+insert into telephone (telephoneID, tootja, telephoneMODEL, hind, v_aasta, OS) values (16, 'Philips', 'Philips Xenium F511', 49.99, 2010, 'Feature phone');
+insert into telephone (telephoneID, tootja, telephoneMODEL, hind, v_aasta, OS) values (17, 'Samsung', 'Samsung Galaxy Z Flip 5G', 12.99, 2020, 'Android 10, up to Android 11, One UI 3.1.1');
+insert into telephone (telephoneID, tootja, telephoneMODEL, hind, v_aasta, OS) values (18, 'alcatel', 'alcatel OT-C551', 299.99, 2005, 'Feature phone');
+insert into telephone (telephoneID, tootja, telephoneMODEL, hind, v_aasta, OS) values (19, 'Samsung', 'Samsung A717', 39.99, 2007, 'Feature phone');
+insert into telephone (telephoneID, tootja, telephoneMODEL, hind, v_aasta, OS) values (20, 'Realme', 'Realme C3 (3 cameras)', 2.49, 2020, 'Android 10, Realme UI');
+insert into telephone (telephoneID, tootja, telephoneMODEL, hind, v_aasta, OS) values (21, 'Celkon', 'Celkon C111', 4.29, 2011, 'Feature phone');
+insert into telephone (telephoneID, tootja, telephoneMODEL, hind, v_aasta, OS) values (22, 'Panasonic', 'Panasonic P66', 1.99, 2016, 'Android 5.1');
+insert into telephone (telephoneID, tootja, telephoneMODEL, hind, v_aasta, OS) values (23, 'Huawei', 'Huawei Ascend G628', 4.19, 0, 'Android 4.4.4, EMUI 2.3');
+insert into telephone (telephoneID, tootja, telephoneMODEL, hind, v_aasta, OS) values (24, 'verykool', 'verykool s6004 Cyprus Jr.', 29.99, 2016, 'Android 6.0');
+insert into telephone (telephoneID, tootja, telephoneMODEL, hind, v_aasta, OS) values (25, 'Panasonic', 'Panasonic SC3', 39.99, 2005, 'Feature phone');
+
+Select tootja, telephoneMODEL AS model FROM telephone;
+--sorteerimine
+--ASC kasvavas järjekorras
+Select tootja, telephoneMODEL AS model, hind
+FROM telephone
+order by hind;
+--DESC kahenavas jarjekorras
+Select tootja, telephoneMODEL AS model, hind
+FROM telephone
+order by hind desc;
+
+--VÕRDLEMINE >, <, =, >=, <=
+Select telephoneMODEL, hind
+FROM telephone
+where hind >25 --leiab mudelid hinnaga suurem kui 25
+ORDER by hind;
+--leia mudelid vahemikus 10-20 euro
+select telephoneMODEL, hind
+from telephone
+where hind between 10 and 20
+order by hind;
+--sama päring ilma between
+select telephoneMODEL, hind
+from telephone
+where hind >=10  and hind<=20
+order by hind;
+
+--distinct ?! näitab ainult üks kordus
+select distinct OS from telephone;
+
+--võrdlemine tekstikga like 
+select tootja, telephoneMODEL
+from telephone
+where tootja like 'Sony';
+--IN kuvab vastuvus loetlus
+select tootja, telephoneMODEL
+from telephone
+where tootja like 'Sony' or tootja like 'Samsung' or tootja like 'Honor'
+--leia mudelid mis algavad S tähega
+select tootja, telephoneMODEL
+from telephone
+where telephoneMODEL like 'S%';
+--sisaldab s täht '%s%'
+
+select AVG(v_aasta) as 'kesmineaasta'
+from telephone;
+
+select count(*) as 'üldkogus'
+from telephone
+group by tootja;
+--top 6 
+select top 6 tootja, hind
+from telephone
+order by tootja DESC
