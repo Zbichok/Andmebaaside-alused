@@ -1,5 +1,5 @@
-create database trigerTimoha
-use trigerTimoha
+create database Timohatriger
+use Timohatriger
 
 --tabel linnad
 create table linnad(
@@ -7,76 +7,121 @@ linnId int primary key identity(1,1),
 linnanimi varchar(50) unique,
 rahvaarv int not null);
 --tabel logi
-create table logi(
+CREATE TABLE logi(
 Id int primary key identity(1,1),
 kuupaev datetime,
-andmed text);
---insert triger
-create trigger linnalisamine
+andmed TEXT);
+
+select * from linnad
+select * from logi
+
+--Insert Triger
+Create TRIGGER linnaLisamine
 on linnad
 for insert
-as
+As
 insert into logi(kuupaev, andmed)
-select
+Select
 getdate(), inserted.linnanimi
 from inserted;
---kontrollimiseks tuleb lisada uus linn tabelisse linnad
+--kontrllimiseks tuleb lisada uus linn tabelisse
 insert into linnad (linnanimi, rahvaarv)
-values ('Narva', 600000);
-select * from linnad;
-select * from logi;
+values('Narva', 50000);
+Select * from linnad;
+Select * from logi;
 
 --kustutame triger
-drop trigger linnalisamine
+drop trigger linnaLisamine;
 
-create trigger linnalisamine
+Create TRIGGER linnaLisamine
 on linnad
 for insert
-as
+As
 insert into logi(kuupaev, andmed)
-select
+Select
 getdate(),
-concat('lisatud linn: ', inserted.linnanimi,
-' | rahvaarv: ', inserted.rahvaarv, ' | id: ', inserted.linnId)
+CONCAT ('lisarud linn: ', inserted.linnanimi,
+' | rahvaarv: ', inserted.rahvaarv, ' id: ', inserted.linnId)
 from inserted;
 
 --delete trigger
-create trigger linnakustutamine
+Create TRIGGER linnakustutamine
 on linnad
-for insert
+for delete
+As
+insert into logi(kuupaev, andmed)
+Select
+getdate(),
+CONCAT ('kustutatud linn: ', deleted.linnanimi,
+' | rahvaarv: ', deleted.rahvaarv, ' id: ', deleted.linnId)
+from deleted ;
+
+delete from linnad where linnId=1;
+Select * from linnad;
+Select * from logi;
+
+--UPDATE TRIGGER
+CREATE TRIGGER linnaUuendamine
+on linnad
+For update
 as
 insert into logi(kuupaev, andmed)
 select
-getdate(),
-concat('Kustutatud linn: ', deleted.linnanimi,
-' | rahvaarv: ', deleted.rahvaarv, ' | id: ', deleted.linnId)
-from deleted;
+GETDATE(),
+CONCAT (' vana linna andmed: ', d.linnanimi,
+' | ', d.rahvaarv, ' | id: ', d.linnId,
+' vana linna andmed: ', i.linnanimi,
+' | ', i.rahvaarv, ' | id: ', i.linnId)
+from deleted  d inner join inserted i
+on d.linnId=i.linnId
 
-delete from linnad where linnId=1;
+--kontrollimiseks uuendame linna andmed
+select * from linnad
+UPDATE linnad Set linnanimi = 'Tapa uus', rahvaarv= 25
+Where linnId=2;
 select * from linnad;
 select * from logi;
 
---update trigger
-create trigger linnauuendamine
+--lisame kasutajanimi logi tabelisse
+
+Alter table logi add kasutaja varchar(40);
+--INSERT, DELETE Trigger
+Create TRIGGER linnaLisamineKustutamine
 on linnad
-for insert
-as
-insert into logi(kuupaev, andmed)
-select
+for insert, DELETE
+As
+begin
+SET NOCOUNT ON;
+insert into logi(kuupaev, andmed, kasutaja)
+Select
 getdate(),
-concat('Vana linna andmed: ', d.linnanimi,
-' | rahvaarv: ', d.rahvaarv, ' | id: ', d.linnId,
-'Uued linna andmed: ', i.linnanimi,
-' | rahvaarv: ', i.rahvaarv, ' | id: ', i.linnId,)
-from deleted d inner join inserted i
-on d.linnId=i.linnId;
+CONCAT ('lisarud linn: ', inserted.linnanimi,
+' | rahvaarv: ', inserted.rahvaarv, ' id: ', inserted.linnId),
+SYSTEM_USER
+from inserted
 
---kontrollimiseks uuendamine linna andmed
-select * from linnad;
-UPDATE linnad set linnanimi ='Tapa uus', rahvaarv=25
-where linnId=2;
-select * from linnad;
-select* from logi;
+UNION ALL
 
---lisamine kasutajaNimi logi tabelisse
-alter table logi add kasutaja  varchar(40);
+SELECT
+getdate(),
+CONCAT ('kustutatud linn: ', deleted.linnanimi,
+' | rahvaarv: ', deleted.rahvaarv, ' id: ', deleted.linnId),
+SYSTEM_USER
+from deleted ;
+
+
+end;
+
+DiSABle TRIGGER linnaLisamine on linnad;
+DISABLE TRIGGER linnaLkustutamine ON linnad;
+
+insert into linnad (linnanimi, rahvaarv)
+values('Paldiski', 50000);
+
+Delete from linnad Where linnId=5
+select * from linnad
+Select * from logi
+
+drop table logi
+drop table linnad
+drop trigger linnakustutamine
