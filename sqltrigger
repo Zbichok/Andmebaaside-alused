@@ -1,5 +1,5 @@
-CREATE DATABASE trigerMihkel
-use trigerMihkel
+CREATE DATABASE TimohaTrigger
+use TimoaTrigger
 --tabel linnad
 create table linnad(
 linnId int primary key identity(1,1),
